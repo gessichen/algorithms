@@ -2,46 +2,54 @@ class Solution:
     # @param s, a string
     # @return a list of strings
 
-
-    def convert2IP(self, ipaddr):
-    	ret = ""
-    	for i in xrange (0, len(ipaddr)-1):
-            ret += ipaddr[i]
-
-            ret += '.'
-        ret += ipaddr[len(ipaddr) - 1]
-        return ret
-
-    def getAddress (self, ret, s, index, num, ipaddr):
-        print str(ipaddr)
-        print index
-    	if len(ipaddr) == 4:
-    		if index == len(s):
-    			newip = self.convert2IP(ipaddr)
-    			ret.append(newip)
-            return
-
-    	if index + num > len(s):
+    def restoreRec(self, s, current, index, strindex, lst):
+    	l = len(s) - strindex
+    	if l < 4 - index:
     		return
-    	substr = s[index:index + num]
-    	ipnum = int(substr)
-    	if ipnum > 255:
+    	if l > (4 - index) * 3:
     		return
-    	ipaddr.append (substr)
-    	for i in xrange (1,4):
-    		self.getAddress(ret,s,index + num,i,ipaddr)
-    	ipaddr.pop()
 
+    	if index == 3:
+#    		print "reach final"
+    		num_str = s[strindex:]
+    		num = int(num_str)
+#    		print num
+    		if l >= 2 and num < pow(10,l-1):
+    			return
+
+    		if num <= 255:
+    			newip = ""
+    			for i in xrange (0, len(current)):
+    				newip += current[i]
+    				newip += "."
+    			newip += num_str
+    			lst.append(newip)
+    	else:
+    		limit = l
+    		if l > 3:
+    			limit = 3
+    		for i in xrange(1, limit+1):
+    			addr = s[strindex:strindex + i]
+    			addr_int = int(addr)
+#    			print addr_int
+    			if addr_int <= 255:
+#    				print "yes"
+    				if i >= 2 and addr_int < pow(10,i-1):
+    					print addr_int
+    					return
+    				current.append(addr)
+    				self.restoreRec(s, current, index+1, strindex + i, lst)
+    				current.pop()
 
     def restoreIpAddresses(self, s):
-        ret = []
-        for i in xrange (1,4):
-    		self.getAddress(ret,s,0,i,[])
-        return ret
+    	ret = []
+    	self.restoreRec(s, [], 0, 0, ret)
+    	return ret
 
+
+print pow(10,2)
 
 s = Solution()
+ret = s.restoreIpAddresses("255255255255")
 
-ret = s.restoreIpAddresses("25525511135")
-
-print str(ret)
+print ret
