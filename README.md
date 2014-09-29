@@ -9,6 +9,4 @@ The name of the file are the name to the name of the problem, so it's easy to fi
 
 My email address is gessichen@gmail.com
 
-If you have found bugs in the code, or you have better solutions, or you just wanna to discuss with me 
-do not hesitate to send me a email
-you are always welcomed
+If you have found bugs in the code, or you have better solutions, or you just wanna to discuss with me, do not hesitate to send me a email, you are always welcomed :)
