@@ -6,30 +6,58 @@ class ListNode:
 
 class Solution:
     # @return a ListNode
-
-    def addWithWeight (self, l1, l2, retl, weight, index):
-    	s = (l1.val  + l2.val + weight) % 10
-    	w = (l1.val  + l2.val + weight) / 10
-    	node = ListNode(s)
-    	if index > 0:
-    		retl[index - 1].next = node
-    	if l1.next == None:
-    		node.next = None
-    		retl.append(s) 
-    		if w > 0:
-    			lnode = ListNode(w)
-    			node.next = lnode
-    			lnode.next = None
-    		return retl[0]
-    	retl.append(node)
-    	l1 = l1.next
-    	l2 = l2.next
-    	return self.addWithWeight(l1,l2,retl,w,index + 1)
-
     def addTwoNumbers(self, l1, l2):
-    	return self.addWithWeight(l1,l2,[],0,0)
+   		dummy = ListNode(0)
+   		current = dummy
+   		levelUp = 0
+   		while l1 != None or l2 != None:
+   			newVal = levelUp
+   			if l1 != None:
+   				newVal += l1.val
+   				l1 = l1.next
+   			if l2 != None:
+   				newVal += l2.val
+   				l2 = l2.next
+
+   			if newVal >= 10:
+   				levelUp = 1
+   				newVal -= 10
+   			else:
+   				levelUp = 0
+   			newNode = ListNode(newVal)
+   			current.next = newNode
+   			current = newNode
+
+   		if levelUp == 1:
+   			current.next = ListNode(1)
+
+   		return dummy.next
 
 
 s = Solution()
-ret = s.addTwoNumbers ([2,4,3], [5,6,4])
-print str(ret.val)
+
+l1 = ListNode(2)
+l2 = ListNode(4)
+l3 = ListNode(3)
+
+l1.next = l2
+l2.next = l3
+
+
+l4 = ListNode(5)
+l5 = ListNode(6)
+l6 = ListNode(4)
+
+l4.next = l5
+#l5.next = l6
+
+ret = s.addTwoNumbers(l1,l4)
+
+while ret != None:
+	print ret.val
+	ret = ret.next
+
+
+
+
+
